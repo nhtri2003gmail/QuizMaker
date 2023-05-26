@@ -14,19 +14,19 @@ Just run `main.py`. There are 3 tabs in total: `Load`, `Quiz` and `Setting`
 
 ![Alt text](images/tab-load.png)
 
-First area will be used to import quiz from file. It is currently support just excel extension `.xlsx`, `.xls` and `.csv` and will be improved in the future! You can scroll down to the [template example](#template) for importing files.
+First area will be used to import quiz from file. It is currently support excel extension `.xlsx`, `.xls`, `.csv` and word extension `.docx`, others will be improved in the future! You can scroll down to the [template example](#template) for importing files.
 
-After imported file, the file will be parsed and automatically added to the second area as following:
+After importing file, the file will be parsed and automatically added to the second area. Select the item and click `LOAD` (You can also double click on the item) and it will be loaded in to program for preparing quiz.
 
-![Alt text](images/tab-load-second-area.png)
+![Alt text](images/after-import.png)
 
-Select the item and click `LOAD` (You can also double click on the item) and it will be loaded in to program for preparing quiz. On the third area, there are plenty of things as follows:
+On the third area, there are plenty of things as follows:
 
 - `File loaded`: After you click `LOAD` (or double click on item), this field will display the name of loaded quiz
 - `Mode`: There are 2 mode: `Practice` and `Quiz`. Mode `Practice` will let you play and learn quiz with a static order while mode `Quiz` will random the question. Remember to press button `Set` of the next field to save setting
+- `Show answer`: This option let you see the answer both in `Practice` mode and in `Quiz` mode and will be saved with just button `START`. After you press `START`, changing `Show answer` will not show or hide the answer
 - `Number of question`: Choose the number of question you want to play. This option is available for both `Practice` and `Quiz` mode. After you enter the number, make sure to press button `Set`
 - `Part`: If you choose `Practice` mode, this field will calculcate the number of parts with each part has `Number of question` you have set. On the other hand, if you choose `Quiz` mode, it will show `random`
-- `Show answer`: This option let you see the answer both in `Practice` mode and in `Quiz` mode and will be saved with just button `START`. After you press `START`, changing `Show answer` will not show or hide the answer
 
 ## Quiz
 
