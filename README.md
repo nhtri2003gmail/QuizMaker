@@ -8,7 +8,7 @@ Tested:
 
 # Usage
 
-There are 3 tabs in total: `Load`, `Quiz` and `Setting`
+Just run `main.py`. There are 3 tabs in total: `Load`, `Quiz` and `Setting`
 
 ## Load
 

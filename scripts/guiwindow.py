@@ -117,40 +117,56 @@ class GUIWINDOW:
         self.frLoadFunctionality.grid(row=1, column=1, sticky='news')
 
         self.lbLoadedFile = tk.Label(self.frLoadFunctionality, text='File loaded: ', font=('Arial', self.layout['genFontSize']))
-        self.lbLoadedFile.grid(row=0, column=0, pady=(20, 10), padx=10, sticky='w')
+        self.lbLoadedFile.grid(row=0, column=0, pady=(20, 5), padx=10, sticky='w')
         self.etLoadedFileName = tk.Entry(self.frLoadFunctionality, text='', font=('Arial', self.layout['genFontSize']), state='readonly')
         self.etLoadedFileName.grid(row=0, column=1, columnspan=2, padx=(0, 20), sticky='we')
 
         self.lbMode = tk.Label(self.frLoadFunctionality, text='Mode:', font=('Arial', self.layout['genFontSize']))
-        self.lbMode.grid(row=1, column=0, pady=10, padx=10, sticky='w')
+        self.lbMode.grid(row=1, column=0, pady=5, padx=10, sticky='w')
         self.varMode = tk.StringVar(value='Practice')
         self.cbbMode = ttk.Combobox(self.frLoadFunctionality, textvariable=self.varMode, values=['Practice', 'Quiz'], font=('Arial', self.layout['genFontSize']))
-        self.cbbMode.grid(row=1, column=1, columnspan=2, pady=10, padx=(0, 20), sticky='we')
+        self.cbbMode.grid(row=1, column=1, columnspan=2, pady=5, padx=(0, 20), sticky='we')
+        self.cbbMode.bind("<<ComboboxSelected>>", self.ModeSelected)
 
-        self.lbNumOfQues = tk.Label(self.frLoadFunctionality, text='Number of questions:', font=('Arial', self.layout['genFontSize']))
-        self.lbNumOfQues.grid(row=2, column=0, pady=10, padx=10, sticky='w')
-        self.etNumOfQues = tk.Entry(self.frLoadFunctionality, font=('Arial', self.layout['genFontSize']))
-        self.etNumOfQues.grid(row=2, column=1, sticky='we')
-        self.btnSetNumOfQues = tk.Button(self.frLoadFunctionality, text='   Set   ', font=('Arial', self.layout['genFontSize']), command=self.LoadSetNumberOfQues)
-        self.btnSetNumOfQues.grid(row=2, column=2, padx=50, sticky='we')
-
-        self.lbPart = tk.Label(self.frLoadFunctionality, text='Part:', font=('Arial', self.layout['genFontSize']))
-        self.lbPart.grid(row=3, column=0, pady=10, padx=10, sticky='w')
-        self.varPart = tk.StringVar(value='')
-        self.cbbPart = ttk.Combobox(self.frLoadFunctionality, textvariable=self.varPart, values=[], font=('Arial', self.layout['genFontSize']))
-        self.cbbPart.grid(row=3, column=1, columnspan=2, padx=(0, 20), sticky='we')
-
-        self.lbShowAnswer = tk.Label(self.frLoadFunctionality, text='Show answer:', font=('Arial', self.layout['genFontSize']))
-        self.lbShowAnswer.grid(row=4, column=0, pady=10, padx=10, sticky='w')
+        self.frRadioButtonFunction = tk.Label(self.frLoadFunctionality)
+        self.frRadioButtonFunction.rowconfigure(0, weight=1)
+        self.frRadioButtonFunction.rowconfigure(1, weight=1)
+        self.frRadioButtonFunction.columnconfigure(1, weight=1)
+        self.frRadioButtonFunction.columnconfigure(3, weight=1)
+        self.frRadioButtonFunction.grid(row=2, column=0, columnspan=3, pady=5, sticky='news')
+        # Show answer
+        self.lbShowAnswer = tk.Label(self.frRadioButtonFunction, text='Show answer:', font=('Arial', self.layout['genFontSize']))
+        self.lbShowAnswer.grid(row=0, column=0, rowspan=2, padx=10, sticky='w')
         self.varTmpShowAnswer = tk.StringVar(value='1')
         self.varShowAnswer = tk.StringVar(value='1')
-        self.rdBtnShowAnswerYes = tk.Radiobutton(self.frLoadFunctionality, text='Yes', font=('Arial', self.layout['genFontSize']), variable=self.varTmpShowAnswer, value='1')
-        self.rdBtnShowAnswerYes.grid(row=4, column=1, sticky='w')
-        self.rdBtnShowAnswerNo = tk.Radiobutton(self.frLoadFunctionality, text='No', font=('Arial', self.layout['genFontSize']), variable=self.varTmpShowAnswer, value='0')
-        self.rdBtnShowAnswerNo.grid(row=4, column=2, sticky='w')
+        self.rdBtnShowAnswerYes = tk.Radiobutton(self.frRadioButtonFunction, text='Yes', font=('Arial', self.layout['genFontSize']), variable=self.varTmpShowAnswer, value='1')
+        self.rdBtnShowAnswerYes.grid(row=0, column=1, sticky='w')
+        self.rdBtnShowAnswerNo = tk.Radiobutton(self.frRadioButtonFunction, text='No', font=('Arial', self.layout['genFontSize']), variable=self.varTmpShowAnswer, value='0')
+        self.rdBtnShowAnswerNo.grid(row=1, column=1, sticky='w')
+        # Random order
+        self.lbRandomOrder = tk.Label(self.frRadioButtonFunction, text='Random order:', font=('Arial', self.layout['genFontSize']))
+        self.lbRandomOrder.grid(row=0, column=2, rowspan=2, padx=10, sticky='w')
+        self.varRandomOrder = tk.StringVar(value='1')
+        self.rdBtnRandomOrderYes = tk.Radiobutton(self.frRadioButtonFunction, text='Yes', font=('Arial', self.layout['genFontSize']), variable=self.varRandomOrder, value='1')
+        self.rdBtnRandomOrderYes.grid(row=0, column=3, sticky='w')
+        self.rdBtnRandomOrderNo = tk.Radiobutton(self.frRadioButtonFunction, text='No', font=('Arial', self.layout['genFontSize']), variable=self.varRandomOrder, value='0')
+        self.rdBtnRandomOrderNo.grid(row=1, column=3, sticky='w')
+
+        self.lbNumOfQues = tk.Label(self.frLoadFunctionality, text='Number of questions:', font=('Arial', self.layout['genFontSize']))
+        self.lbNumOfQues.grid(row=3, column=0, pady=5, padx=10, sticky='w')
+        self.etNumOfQues = tk.Entry(self.frLoadFunctionality, font=('Arial', self.layout['genFontSize']))
+        self.etNumOfQues.grid(row=3, column=1, sticky='we')
+        self.btnSetNumOfQues = tk.Button(self.frLoadFunctionality, text='   Set   ', font=('Arial', self.layout['genFontSize']), command=self.LoadSetNumberOfQues)
+        self.btnSetNumOfQues.grid(row=3, column=2, padx=50, sticky='we')
+
+        self.lbPart = tk.Label(self.frLoadFunctionality, text='Part:', font=('Arial', self.layout['genFontSize']))
+        self.lbPart.grid(row=4, column=0, pady=5, padx=10, sticky='w')
+        self.varPart = tk.StringVar(value='')
+        self.cbbPart = ttk.Combobox(self.frLoadFunctionality, textvariable=self.varPart, values=[], font=('Arial', self.layout['genFontSize']))
+        self.cbbPart.grid(row=4, column=1, columnspan=2, padx=(0, 20), sticky='we')
 
         self.btnStart = tk.Button(self.frLoadFunctionality, text='   START   ', font=('Arial', self.layout['genFontSize']), command=self.LoadStartQuiz)
-        self.btnStart.grid(row=5, column=0, columnspan=3, padx=50, pady=10, sticky='we')
+        self.btnStart.grid(row=5, column=0, columnspan=3, pady=5, padx=50, sticky='we')
         
         self.btnSetNumOfQues.config(state='disabled')
         self.btnStart.config(state='disabled')
@@ -166,7 +182,10 @@ class GUIWINDOW:
                 return
             part = self.cbbPart.get()
             self.currentQuestionQuiz = 0
-            self.questionQuiz = question.GenStaticQuestion(self.loadFileName, int(part.split(' ')[1]) - 1, self.maxQuestionQuiz)
+            if self.varRandomOrder.get() == '1':
+                self.questionQuiz = question.GenStaticQuestionRandom(self.loadFileName, int(part.split(' ')[1]) - 1, self.maxQuestionQuiz)
+            else:
+                self.questionQuiz = question.GenStaticQuestionNoRandom(self.loadFileName, int(part.split(' ')[1]) - 1, self.maxQuestionQuiz)
         elif mode=='Quiz':
             self.currentQuestionQuiz = 0
             self.questionQuiz = question.GenDynamicQuestion(self.loadFileName, self.maxQuestionQuiz)
@@ -181,14 +200,16 @@ class GUIWINDOW:
     def LoadSetNumberOfQues(self):
         try:
             n = int(self.etNumOfQues.get())
-            if n<5 or n>200:
-                tkmsgbox.showinfo("Number of question", 'Number of question should be from 5 to 200')
+            if n<1 or n>200:
+                tkmsgbox.showinfo("Number of question", 'Number of question should be from 1 to 200')
                 return
             mode = self.cbbMode.get()
             with open(self.loadFileName, 'rt') as f:
                 ques = json.loads(f.read())
             quantity = ques['quantity']
             self.maxQuestionQuiz = n if n < quantity else quantity
+            self.etNumOfQues.delete(0, tk.END)
+            self.etNumOfQues.insert(0, str(self.maxQuestionQuiz))
             if mode=='Practice':
                 parts = []
                 if quantity % self.maxQuestionQuiz == 0:
@@ -199,15 +220,23 @@ class GUIWINDOW:
                     if i==0:
                         self.varPart.set('Part ' + str(i+1))
                     parts.append('Part ' + str(i+1))
-            elif mode=='Quiz':
-                self.varPart.set('Random')
-                parts = ['Random']
-            self.etNumOfQues.delete(0, tk.END)
-            self.etNumOfQues.insert(0, str(self.maxQuestionQuiz))
-            self.cbbPart.config(values=parts)
+                self.cbbPart.config(values=parts)
             self.btnStart.config(state='normal')
-        except:
-            tkmsgbox.showerror('Number of question', 'Not a valid number')
+        except Exception as e:
+            tkmsgbox.showerror('Number of question', e)
+
+    def ModeSelected(self, event):
+        if self.cbbMode.get() == 'Quiz':
+            self.rdBtnRandomOrderYes.config(state='disabled')
+            self.rdBtnRandomOrderNo.config(state='disabled')
+            self.varRandomOrder.set('1')
+            self.varPart.set('Random')
+            self.cbbPart.config(values=['Random'])
+        else:
+            self.rdBtnRandomOrderYes.config(state='normal')
+            self.rdBtnRandomOrderNo.config(state='normal')
+            self.varPart.set('')
+            self.cbbPart.config(values=[])
 
     def LoadFile(self, event):
         if self.lsLoadedFile.size()==0 or self.lsLoadedFile.curselection()==():
@@ -379,7 +408,6 @@ class GUIWINDOW:
         self.QuizTabLoadContent()
 
     def QuizSubmit(self):
-
         count = 0
         for i, ques in enumerate(self.questionQuiz):
             if ques[6] == 0:
@@ -391,6 +419,13 @@ class GUIWINDOW:
             else:
                 self.lsQuestion.itemconfig(i,{'bg':'red', 'fg': 'white'})
         self.varShowAnswer.set('1')
+        # If answer is correct
+        if (int(self.choice.get()) == self.correctAns):
+            self.rdBtnAns[self.correctAns].config(disabledforeground='green')
+        # If not
+        else:
+            self.rdBtnAns[self.correctAns].config(disabledforeground='green')
+            self.rdBtnAns[int(self.choice.get())].config(disabledforeground='red')
         tkmsgbox.showinfo('Score', f'{count}/{self.maxQuestionQuiz}')
 
     ##############################################

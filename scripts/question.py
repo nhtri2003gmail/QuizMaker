@@ -111,12 +111,28 @@ def ImportFromFile(source, dest):
         return 0, 'Extension .' + GetExtension(source) + ' does not supported'
 
 # 1 part = <part index> * <number of question>
-def GenStaticQuestion(loadFileName, part, maxQuestionQuiz):
+def GenStaticQuestionNoRandom(loadFileName, part, maxQuestionQuiz):
     with open(loadFileName, 'rt') as f:
         datas = json.loads(f.read())
     # print(loadFileName, part, maxQuestionQuiz)
     ques = []
     for i, quesi in enumerate(range(part*maxQuestionQuiz, part*maxQuestionQuiz + maxQuestionQuiz)):
+        if quesi>=len(datas['collection']):
+            break
+        ques.append([])
+        for ele in datas['collection'][quesi]:
+            ques[i].append(ele)
+        ques[i].append(0)           # isSolved
+        ques[i].append(-1)          # userAnswer
+    return ques
+
+
+def GenStaticQuestionRandom(loadFileName, part, maxQuestionQuiz):
+    with open(loadFileName, 'rt') as f:
+        datas = json.loads(f.read())
+    # print(loadFileName, part, maxQuestionQuiz)
+    ques = []
+    for i, quesi in enumerate(random.sample(range(part*maxQuestionQuiz, part*maxQuestionQuiz + maxQuestionQuiz), maxQuestionQuiz)):
         if quesi>=len(datas['collection']):
             break
         ques.append([])
