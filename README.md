@@ -64,7 +64,7 @@ It's just stuff you can play around. With `Quiz font size`, it affects the quest
 
 ## Template
 
-With Excel file, the program support extension `.xlsx`, `.xls` and `.csv`. It will look through 6 columns:
+With Excel file, the program support extension `.xlsx` and `.xls`. It will look through 6 columns:
 
 ```
 ----------------------------------------------------------------------------------
