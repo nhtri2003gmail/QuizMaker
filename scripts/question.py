@@ -4,12 +4,12 @@ import json
 import random
 try:
     import xlrd
-except Exception as e:
+except:
     os.system('pip install xlrd==1.2.0')
     import xlrd
 try:
     import docx2txt
-except Exception as e:
+except:
     os.system('pip install docx2txt')
     import docx2txt
 
