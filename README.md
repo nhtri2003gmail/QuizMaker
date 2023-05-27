@@ -16,17 +16,22 @@ Just run `main.py`. There are 3 tabs in total: `Load`, `Quiz` and `Setting`
 
 First area will be used to import quiz from file. It is currently support excel extension `.xlsx`, `.xls`, `.csv` and word extension `.docx`, others will be improved in the future! You can scroll down to the [template example](#template) for importing files.
 
-After importing file, the file will be parsed and automatically added to the second area. Select the item and click `LOAD` (You can also double click on the item) and it will be loaded in to program for preparing quiz.
+After importing file, the file will be parsed and automatically added to the second area as following:
 
 ![Alt text](images/after-import.png)
+
+Select the item and click `LOAD` (You can also double click on the item) and it will be loaded in to program for preparing quiz:
+
+![Alt text](images/after-load.png)
 
 On the third area, there are plenty of things as follows:
 
 - `File loaded`: After you click `LOAD` (or double click on item), this field will display the name of loaded quiz
-- `Mode`: There are 2 mode: `Practice` and `Quiz`. Mode `Practice` will let you play and learn quiz with a static order while mode `Quiz` will random the question. Remember to press button `Set` of the next field to save setting
+- `Mode`: There are 2 mode: `Practice` and `Quiz`. Mode `Practice` will let you play and learn quiz with a static order while mode `Quiz` will random the question
 - `Show answer`: This option let you see the answer both in `Practice` mode and in `Quiz` mode and will be saved with just button `START`. After you press `START`, changing `Show answer` will not show or hide the answer
-- `Number of question`: Choose the number of question you want to play. This option is available for both `Practice` and `Quiz` mode. After you enter the number, make sure to press button `Set`
-- `Part`: If you choose `Practice` mode, this field will calculcate the number of parts with each part has `Number of question` you have set. On the other hand, if you choose `Quiz` mode, it will show `random`
+- `Random order`: This field is only available in `Practice` mode
+- `Number of question`: Choose the number of question you want to play. This option is available for both `Practice` and `Quiz` mode to save the number of question. After you enter the number, make sure to press button `Set`
+- `Part`: If you choose `Practice` mode and click `Set`, this field will calculcate the number of parts with each part has `Number of question` you have set. On the other hand, if you choose `Quiz` mode, it will show `random`
 
 ## Quiz
 
@@ -73,6 +78,4 @@ Here is example for format in word (no matter how much newline between them but 
 
 ![Alt text](images/word-template.png)
 
-Download [Excel Template](./template/Template.xlsx)
-
-Download [Word Template](./template/Template.docx)
+Download template here: [Excel Template](./template/Template.xlsx), [Word Template](./template/Template.docx)
