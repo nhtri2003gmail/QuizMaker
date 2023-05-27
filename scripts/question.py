@@ -3,10 +3,10 @@ import os
 import json
 import random
 try:
-    import xlwings as xw
+    import xlrd
 except Exception as e:
-    os.system('pip install xlwings')
-    import xlwings as xw
+    os.system('pip install xlrd==1.2.0')
+    import xlrd
 try:
     import docx2txt
 except Exception as e:
@@ -21,28 +21,23 @@ def GetFileName(path):
 
 def ImportFromExcelFile(source, dest):
     try:
-        excel_app = xw.App(visible=False)
-        ws = excel_app.books.open(source).sheets[0]
-    except Exception as e:
-        excel_app.quit()
-        return 0, e
-    try:
+        wb = xlrd.open_workbook(source)
+        ws = wb.sheet_by_index(0)
         i = 0
         ques = {'quantity': 0, 'collection': []}
         while True:
-            datas = ws.range(f'A{i+1}:F{i+1}').value
-            if datas == [None]*6:
+            try:
+                datas = [ws.cell_value(i, j) for j in range(6)]
+            except IndexError:
                 break
             ques['collection'].append(datas[:5])
             ques['collection'][i].append(int(datas[5]) - 1)
             i+=1
-        excel_app.quit()
         ques['quantity'] = i
         with open(dest + '/' + GetFileName(source).split('.')[0], 'wt') as f:
             f.write(json.dumps(ques))
         return 1, GetFileName(source).split('.')[0]
     except Exception as e:
-        excel_app.quit()
         return 0, e
 
 def ImportFromDocFile(source, dest):
