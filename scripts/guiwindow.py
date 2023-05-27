@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.filedialog as tkfiledialog
 import tkinter.messagebox as tkmsgbox
-import json
 import os
+import json
 from threading import Thread
 import time
 import scripts.question as question

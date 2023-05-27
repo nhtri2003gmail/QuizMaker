@@ -1,17 +1,8 @@
-import tkinter.messagebox as tkmsgbox
 import os
 import json
 import random
-try:
-    import xlrd
-except:
-    os.system('pip install xlrd==1.2.0')
-    import xlrd
-try:
-    import docx2txt
-except:
-    os.system('pip install docx2txt')
-    import docx2txt
+import xlrd
+import docx2txt
 
 def GetExtension(path):
     return path.split('.')[-1]

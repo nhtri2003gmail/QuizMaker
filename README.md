@@ -1,20 +1,35 @@
-# Quiz Maker v1.0
+# Quiz Maker
 
 This is a project for fun
 
-Tested:
+Tested on:
 - Windows 10, 11
-- python 3.10.7, 3.11.3
+- Ubuntu 20.04, Kali linux 2022.4
+- Python version 3.8.10, 3.10.7, 3.10.8, 3.11.3
+
+# Installation
+
+Run file `setup.py` first to install some dependencies by double click (Windows) or run the following command (Linux):
+
+```python
+python3 setup.py
+```
+
+After it's done, you can run `main.pyw` by double click (Windows) or run the following command (Linux):
+
+```python
+python3 main.pyw
+```
 
 # Usage
 
-Just run `main.py`. There are 3 tabs in total: `Load`, `Quiz` and `Setting`
+There are 3 tabs in total: `Load`, `Quiz` and `Setting`
 
 ## Load
 
 ![Alt text](images/tab-load.png)
 
-First area will be used to import quiz from file. It is currently support excel extension `.xlsx`, `.xls`, `.csv` and word extension `.docx`, others will be improved in the future! You can scroll down to the [template example](#template) for importing files.
+First area will be used to import quiz from file. It is currently support excel extension `.xlsx`, `.xls` and word extension `.docx`, others will be improved in the future! You can scroll down to the [template example](#template) for importing files.
 
 After importing file, the file will be parsed and automatically added to the second area as following:
 
@@ -78,4 +93,4 @@ Here is example for format in word (no matter how much newline between them but 
 
 ![Alt text](images/word-template.png)
 
-Download template here: [Excel Template](./template/Template.xlsx), [Word Template](./template/Template.docx)
+Download template here: [Excel Template (.xlsx)](./template/Template.xlsx), [Excel Template (.xls)](./template/Template.xls), [Word Template (.docx)](./template/Template.docx)
