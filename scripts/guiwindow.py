@@ -8,9 +8,11 @@ from threading import Thread
 import time
 import scripts.question as question
 from PIL import Image, ImageTk
+from update_check import isUpToDate
 
 class GUIWINDOW:
     def __init__(self):
+        self.check_update()
         # These var can be access by other class
         # Those var not in this __init__ func will be private
         self.correctAns = None
@@ -35,6 +37,10 @@ class GUIWINDOW:
                 os.mkdir('data')
         with open('layout.conf', 'rt') as f:
             self.layout = json.loads(f.read())
+
+    def check_update(self):
+        print(isUpToDate(__file__, "https://github.com/nhtri2003gmail/QuizMaker/blob/master/scripts/guiwindow.py"))
+        input()
 
     def GUI(self):
         self.root = tk.Tk()
