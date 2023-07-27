@@ -1,4 +1,4 @@
-# Quiz Maker
+# Quiz Maker V1.2
 
 This is a project for fun
 
