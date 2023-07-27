@@ -15,6 +15,7 @@ class GUIWINDOW:
         # Those var not in this __init__ func will be private
         self.correctAns = None
         self.maxQuestionQuiz = None
+        self.question_quiz_num = None
         self.currentQuestionQuiz = None
         self.questionQuiz = None
         self.choice = None
@@ -201,6 +202,7 @@ class GUIWINDOW:
         elif mode=='Quiz':
             self.currentQuestionQuiz = 0
             self.questionQuiz = question.GenDynamicQuestion(self.loadFileName, self.maxQuestionQuiz)
+        self.question_quiz_num = len(self.questionQuiz)
         self.correctAns = int(self.questionQuiz[self.currentQuestionQuiz][5])
         self.QuizTabLoadContent()
         self.notebook.select(1)
@@ -367,11 +369,11 @@ class GUIWINDOW:
             img = ImageTk.PhotoImage(image_resized)
             self.lb_image.image = img
             self.lb_image.config(image=img)
-            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.maxQuestionQuiz}] ' + self.questionQuiz[self.currentQuestionQuiz][0].split('>')[1])
+            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.question_quiz_num}] ' + self.questionQuiz[self.currentQuestionQuiz][0].split('>')[1])
         else:
             self.image_path = ''
             self.lb_image.config(image='')
-            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.maxQuestionQuiz}] ' + self.questionQuiz[self.currentQuestionQuiz][0])
+            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.question_quiz_num}] ' + self.questionQuiz[self.currentQuestionQuiz][0])
         for i in range(4):
             self.rdBtnAns[i].config(text=self.questionQuiz[self.currentQuestionQuiz][i+1])
 
@@ -429,7 +431,7 @@ class GUIWINDOW:
         self.QuizTabLoadContent()
 
     def QuizNextQuestion(self):
-        if (self.currentQuestionQuiz==None) or (self.currentQuestionQuiz == self.maxQuestionQuiz - 1):
+        if (self.currentQuestionQuiz==None) or (self.currentQuestionQuiz == self.question_quiz_num - 1):
             return
         self.currentQuestionQuiz+=1
         image_path_tmp = f'{ self.etSavePath.get() }/{ self.etLoadedFileName.get().split("] ")[1] }.img/image{ self.image_count + 1 }.png'

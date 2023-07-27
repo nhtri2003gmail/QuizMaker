@@ -121,14 +121,16 @@ def GenStaticQuestionRandom(loadFileName, part, maxQuestionQuiz):
         datas = json.loads(f.read())
     # print(loadFileName, part, maxQuestionQuiz)
     ques = []
-    for i, quesi in enumerate(random.sample(range(part*maxQuestionQuiz, part*maxQuestionQuiz + maxQuestionQuiz), maxQuestionQuiz)):
+    i = 0
+    for quesi in random.sample(range(part*maxQuestionQuiz, part*maxQuestionQuiz + maxQuestionQuiz), maxQuestionQuiz):
         if quesi>=len(datas['collection']):
-            break
+            continue
         ques.append([])
         for ele in datas['collection'][quesi]:
             ques[i].append(ele)
         ques[i].append(0)           # isSolved
         ques[i].append(-1)          # userAnswer
+        i+=1
     return ques
 
 
