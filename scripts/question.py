@@ -32,8 +32,11 @@ def ImportFromExcelFile(source, dest):
         return 0, e
 
 def ImportFromDocFile(source, dest):
+    image_folder_path = dest + '/' + GetFileName(source).split('.')[0] + '.img'
     try:
-        datas = docx2txt.process(source).split('\n')
+        if not os.path.exists(image_folder_path):
+            os.mkdir(image_folder_path)
+        datas = docx2txt.process(source, image_folder_path).split('\n')
     except Exception as e:
         return 0, e
     try:

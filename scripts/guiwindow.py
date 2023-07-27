@@ -7,6 +7,7 @@ import json
 from threading import Thread
 import time
 import scripts.question as question
+from PIL import Image, ImageTk
 
 class GUIWINDOW:
     def __init__(self):
@@ -17,6 +18,8 @@ class GUIWINDOW:
         self.currentQuestionQuiz = None
         self.questionQuiz = None
         self.choice = None
+        self.image_path = ''
+        self.image_count = 1
 
         if not os.path.exists('layout.conf'):
             with open('layout.conf', 'wt') as f:
@@ -66,6 +69,15 @@ class GUIWINDOW:
     def QuizOnResize(self, event):
         # 110 - 85
         self.lbQues.config(wraplength=event.width-75)
+
+        if self.image_path != '':
+            image = Image.open(self.image_path)
+            ratio = (event.width - 85) / image.size[0]
+            image_resized = image.resize( (int(image.size[0] * ratio), int(image.size[1] * ratio)) )
+            img = ImageTk.PhotoImage(image_resized)
+            self.lb_image.image = img
+            self.lb_image.config(image=img)
+
         for i in range(4):
             self.rdBtnAns[i].config(wraplength=event.width-100)
 
@@ -257,7 +269,8 @@ class GUIWINDOW:
     def LoadLoadedFile(self):
         files = os.listdir(self.layout['savePath'])
         for file in files:
-            self.lsLoadedFile.insert('end', file)
+            if file[-4:] != '.img':
+                self.lsLoadedFile.insert('end', file)
 
     def LoadGetImportFromPath(self):
         path = tkfiledialog.askopenfile()
@@ -301,6 +314,7 @@ class GUIWINDOW:
         self.frQuizContent.columnconfigure(0, weight=1)
         self.frQuizContent.grid(row=0, column=0, sticky='news')
         self.lbQues = tk.Label(self.frQuizContent, text='', font=('Arial', self.layout['quizFontSize']), justify='left', anchor='w', wraplength=self.layout['winWidth']-275)
+        self.lb_image = tk.Label(self.frQuizContent)
         self.choice = tk.StringVar(value='-1')
         self.rdBtnAns = [None]*4
         for i in range(4):
@@ -316,17 +330,10 @@ class GUIWINDOW:
                 disabledforeground='black',
                 command=self.QuizSelectedAnswer
             )
-        self.lbQues.grid(row=0, column=0, pady=30, padx=(40, 0), sticky='w')
+        self.lbQues.grid(row=0, column=0, pady=(30, 0), padx=(40, 0), sticky='w')
+        self.lb_image.grid(row=1, column=0, pady=(10, 30), padx=(40, 0), sticky='w')
         for i in range(4):
-            self.rdBtnAns[i].grid(row=(1 + i), column=0, pady=5, padx=(40, 0), sticky='w')
-
-        self.frQuestionList = tk.Frame(self.frQuizTab)
-        self.frQuestionList.rowconfigure(0, weight=1)
-        self.frQuestionList.columnconfigure(0, weight=1)
-        self.frQuestionList.grid(row=0, column=1, rowspan=2, sticky='news')
-        self.lsQuestion = tk.Listbox(self.frQuestionList, font=('Arial', self.layout['genFontSize']))
-        self.lsQuestion.grid(row=0, column=0, rowspan=6, sticky='ns')
-        self.lsQuestion.bind('<Double-Button-1>', self.QuizJumpQuestionWithList)
+            self.rdBtnAns[i].grid(row=(2 + i), column=0, pady=5, padx=(40, 0), sticky='w')
 
         self.frQuizFooter = tk.Frame(self.frQuizTab)
         self.frQuizFooter.columnconfigure(0, weight=1)
@@ -340,11 +347,31 @@ class GUIWINDOW:
         self.right_btn.grid(row=0, column=1, padx=(5, 0), sticky='w')
         self.submit_btn.grid(row=0, column=2, sticky='w')
 
+        self.frQuestionList = tk.Frame(self.frQuizTab)
+        self.frQuestionList.rowconfigure(0, weight=1)
+        self.frQuestionList.columnconfigure(0, weight=1)
+        self.frQuestionList.grid(row=0, column=1, rowspan=2, sticky='news')
+        self.lsQuestion = tk.Listbox(self.frQuestionList, font=('Arial', self.layout['genFontSize']))
+        self.lsQuestion.grid(row=0, column=0, rowspan=7, sticky='ns')
+        self.lsQuestion.bind('<Double-Button-1>', self.QuizJumpQuestionWithList)
+
     def QuizTabLoadContent(self):
         self.QuizResetAnswerButton()
         self.correctAns = self.questionQuiz[self.currentQuestionQuiz][5]
         self.choice.set(str(self.questionQuiz[self.currentQuestionQuiz][7]))
-        self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.maxQuestionQuiz}] ' + self.questionQuiz[self.currentQuestionQuiz][0])
+        if '<image>' in ''.join(self.questionQuiz[self.currentQuestionQuiz][0].lower().split()):
+            self.image_path = f'{ self.etSavePath.get() }/{ self.etLoadedFileName.get().split("] ")[1] }.img/image{ self.image_count }.png'
+            image = Image.open(self.image_path)
+            ratio = (int(self.etWinWidth.get()) - 275) / image.size[0]
+            image_resized = image.resize( (int(image.size[0] * ratio), int(image.size[1] * ratio)) )
+            img = ImageTk.PhotoImage(image_resized)
+            self.lb_image.image = img
+            self.lb_image.config(image=img)
+            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.maxQuestionQuiz}] ' + self.questionQuiz[self.currentQuestionQuiz][0].split('>')[1])
+        else:
+            self.image_path = ''
+            self.lb_image.config(image='')
+            self.lbQues.config(text=f'[{self.currentQuestionQuiz + 1}/{self.maxQuestionQuiz}] ' + self.questionQuiz[self.currentQuestionQuiz][0])
         for i in range(4):
             self.rdBtnAns[i].config(text=self.questionQuiz[self.currentQuestionQuiz][i+1])
 
@@ -395,12 +422,20 @@ class GUIWINDOW:
         if self.currentQuestionQuiz==None or self.currentQuestionQuiz == 0:
             return
         self.currentQuestionQuiz-=1
+        image_path_tmp = f'{ self.etSavePath.get() }/{ self.etLoadedFileName.get().split("] ")[1] }.img/image{ self.image_count - 1 }.png'
+        if os.path.exists(image_path_tmp):
+            if '<image>' in ''.join(self.questionQuiz[self.currentQuestionQuiz][0].lower().split()):
+                self.image_count -= 1
         self.QuizTabLoadContent()
 
     def QuizNextQuestion(self):
         if (self.currentQuestionQuiz==None) or (self.currentQuestionQuiz == self.maxQuestionQuiz - 1):
             return
         self.currentQuestionQuiz+=1
+        image_path_tmp = f'{ self.etSavePath.get() }/{ self.etLoadedFileName.get().split("] ")[1] }.img/image{ self.image_count + 1 }.png'
+        if os.path.exists(image_path_tmp):
+            if '<image>' in ''.join(self.questionQuiz[self.currentQuestionQuiz][0].lower().split()):
+                self.image_count += 1
         self.QuizTabLoadContent()
 
     def QuizJumpQuestionWithList(self, event):

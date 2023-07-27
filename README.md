@@ -87,10 +87,29 @@ With Word file, the program support only extension `.docx`. The format for word 
 - Line 5: answer 4
 - Line 6: correct answer (number)
 
+If you want image in the question, the format should be like this:
+
+- Line 1: image
+- Line 2: question has prefix `<image>`
+- Line 3: answer 1
+- Line 4: answer 2
+- Line 5: answer 3
+- Line 6: answer 4
+- Line 7: correct answer (number)
+
 > Note that correct answer start from 1
 
-Here is example for format in word (no matter how much newline between them but each item has to be on a different line):
+Here is example for format without image in word (no matter how much newline between them but each item has to be on a different line):
 
 ![Alt text](images/word-template.png)
 
-Download template here: [Excel Template (.xlsx)](./template/Template.xlsx), [Excel Template (.xls)](./template/Template.xls), [Word Template (.docx)](./template/Template.docx)
+Here is example for format with image:
+
+![Alt text](images/word-image-template.png)
+
+Download template here:
+
+- [Excel Template (.xlsx)](./template/Template.xlsx)
+- [Excel Template (.xls)](./template/Template.xls)
+- [Word Template (.docx)](./template/Template.docx)
+- [Word Image Template (.docx)](./template/Image-Template.docx)
