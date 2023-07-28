@@ -8,7 +8,8 @@ from threading import Thread
 import time
 import scripts.question as question
 from PIL import Image, ImageTk
-from update_check import isUpToDate
+import hashlib
+import requests
 
 class GUIWINDOW:
     def __init__(self):
@@ -39,8 +40,20 @@ class GUIWINDOW:
             self.layout = json.loads(f.read())
 
     def check_update(self):
-        print(isUpToDate(__file__, "https://github.com/nhtri2003gmail/QuizMaker/blob/master/scripts/guiwindow.py"))
-        input()
+        guiwindow_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/guiwindow.py")
+        question_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/question.py")
+        main_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/main.pyw")
+        is_guiwindow_updated = hashlib.md5(guiwindow_script.content).hexdigest() != hashlib.md5(open('./scripts/guiwindow.py', 'rb').read()).hexdigest()
+        is_question_updated = hashlib.md5(question_script.content).hexdigest() != hashlib.md5(open('./scripts/question.py', 'rb').read()).hexdigest()
+        is_main_updated = hashlib.md5(main_script.content).hexdigest() != hashlib.md5(open('./main.pyw', 'rb').read()).hexdigest()
+        if (is_guiwindow_updated or is_question_updated or is_main_updated):
+            if tkmsgbox.askokcancel('Update', 'Update available, do you want to install?'):
+                with open('./scripts/guiwindows.py', 'wt') as f:
+                    f.write(guiwindow_script.content)
+                with open('./scripts/question.py', 'wt') as f:
+                    f.write(guiwindow_script.content)
+                with open('./main.pyw', 'wt') as f:
+                    f.write(guiwindow_script.content)
 
     def GUI(self):
         self.root = tk.Tk()
