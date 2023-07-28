@@ -39,7 +39,14 @@ class GUIWINDOW:
         with open('layout.conf', 'rt') as f:
             self.layout = json.loads(f.read())
 
+    def check_update_info(self):
+        root = tk.Tk()
+        root.withdraw()
+        root.after(2000, root.destroy)
+        tkmsgbox.showinfo('Update', 'Checking for any updates, please wait...')
+
     def check_update(self):
+        self.check_update_info()
         guiwindow_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/guiwindow.py")
         question_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/question.py")
         main_script = requests.get("https://github.com/nhtri2003gmail/QuizMaker/releases/download/update/main.pyw")
@@ -48,12 +55,12 @@ class GUIWINDOW:
         is_main_updated = hashlib.md5(main_script.content).hexdigest() != hashlib.md5(open('./main.pyw', 'rb').read()).hexdigest()
         if (is_guiwindow_updated or is_question_updated or is_main_updated):
             if tkmsgbox.askokcancel('Update', 'Update available, do you want to install?'):
-                with open('./scripts/guiwindows.py', 'wt') as f:
+                with open('./scripts/guiwindow.py', 'wb') as f:
                     f.write(guiwindow_script.content)
-                with open('./scripts/question.py', 'wt') as f:
-                    f.write(guiwindow_script.content)
-                with open('./main.pyw', 'wt') as f:
-                    f.write(guiwindow_script.content)
+                with open('./scripts/question.py', 'wb') as f:
+                    f.write(question_script.content)
+                with open('./main.pyw', 'wb') as f:
+                    f.write(main_script.content)
 
     def GUI(self):
         self.root = tk.Tk()
